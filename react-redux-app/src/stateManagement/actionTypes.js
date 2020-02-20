@@ -1,0 +1,2 @@
+export const GET_SPACEX_DATA = 'GET_SPACEX_DATA';
+export const RENDER_DATA = 'RENDER_DATA';

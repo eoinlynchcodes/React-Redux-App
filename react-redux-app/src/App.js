@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import * as actionCreators from "./stateManagement/actionCreators";
+import { connect } from "react-redux";
+import { getData } from "./stateManagement/actionCreators";
+import Form from "./components/Form";
 
-function App() {
+function App(props) {
+  console.log(props);
+  useEffect(() => {
+    props.getSpaceXDataActionCreator();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Form />
+
+      <h1>
+        {props.dataFromApi.map((item, key) => {
+          return <div>{item.mission_name}</div>;
+        })}
+      </h1>
     </div>
   );
 }
 
-export default App;
+// Here we have the reducers from Step 4 in combineReducers({})
+function mapStateToProps(state) {
+  // state comes from combinedReducers in index.js
+  return {
+    dataFromApi: state.spaceData
+  };
+}
+
+// Step 8 - Use connect from react-redux to wrap our component
+export default connect(
+  mapStateToProps,
+  actionCreators // Step 9 - Bring in action creators
+)(App);
+
+// export default App;
